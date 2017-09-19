@@ -7,10 +7,24 @@ LIB=$(MASTER_DIR)/lib
 AUTOCONF = autoconf
 AUTOHEADER = autoheader
 
+CFLAGS:=
+ifeq ($(mode), debug)
+	CFLAGS:=$(CFLAGS) -O0 -g -DDEBUG -D_DEBUG
+else
+	CFLAGS:=$(CFLAGS) -mtune=native -O3 -DNDEBUG -DRELEASE
+endif
+
+CXXFLAGS:=-std=c++11 $(CFLAGS)
+
 SUB_DIRS = src
+SOURCES = demo.cpp
 
+HTS_LIB:=$(LIB)/htslib/libhts.a
 
-all: htslib AUX
+all: $(HTS_LIB) AUX
+	@mkdir -p $(BIN_DIR)
+	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/test $(SOURCES) $(OBJ_DIR)/*.o $(HTS_LIB) -lz
+
 .PHONY: all
 
 clean:
@@ -22,15 +36,13 @@ clean:
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-$(BIN_DIR):
-	@mkdir -p $(BIN_DIR)
 
 AUX: $(OBJ_DIR)
 	@for dir in $(SUB_DIRS); do \
 		$(MAKE) --no-print-directory --directory=$$dir; \
 	done
 
-htslib:
+$(HTS_LIB):
 	@echo "- Building in htslib"
 	@rm -f $(LIB)/htslib/configure
 	@rm -rf $(LIB)/htslib/autom4te.cache
