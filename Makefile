@@ -15,6 +15,8 @@ else
 endif
 
 CXXFLAGS:=-std=c++11 $(CFLAGS)
+export $(CXXFLAGS)
+
 
 SUB_DIRS = src
 SOURCES = demo.cpp

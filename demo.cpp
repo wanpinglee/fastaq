@@ -1,6 +1,6 @@
 #include <iostream>
-#include "src/fasta.h"
-#include "src/reference.h"
+#include "include/fasta.h"
+#include "include/reference.h"
 
 int main (int argc, char** argv) {
 	if (argc == 1) {

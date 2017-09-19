@@ -2,7 +2,7 @@
 OBJ_DIR = ../obj
 SOURCES = fasta.cpp reference.cpp
 OBJECTS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
-INCLUDE =
+INCLUDE = -I ../
 
 all: $(OBJECTS)
 
