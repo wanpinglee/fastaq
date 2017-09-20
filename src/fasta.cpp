@@ -37,23 +37,23 @@ struct GZfile {
 
 bool Load(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname)
 {
-    assert(filename && *filename);
+	assert(filename && *filename);
 
-    GZfile fp(filename, "r"); // open the file handler
-    if (!fp)
-    	return false;
+	GZfile fp(filename, "r"); // open the file handler
+	if (!fp) return false; // Cannot open the file
 
-    kseq_t *contig = kseq_init(fp);                // initialize seq
-    while (kseq_read(contig) >= 0) {
+	bool load = false;
+	kseq_t *contig = kseq_init(fp);                // initialize seq
+	while (kseq_read(contig) >= 0) {
 		assert(contig->name.l > 0);
 		// The qual is detected so the file is not a FASTA (it's a FASTQ).
 		if (contig->qual.l != 0) {
 			assert(false && "The format is not FASTA, qual detected!");
-			kseq_destroy(contig);
-			return false;
+			break;
 		}
 
 		// The chrmosome is not the target one.
+		// Try to load the next one.
 		if ((pChrname != NULL) && (std::strcmp(pChrname, contig->name.s) != 0))
 			continue;
 
@@ -63,14 +63,14 @@ bool Load(CReference & reference, const char * filename, const bool & convert_ca
 		}
 
 		// Add the contig in reference.
-		if (!reference.AddReference(contig->name.s, contig->seq.s)) {
-			kseq_destroy(contig);
-			return false;
-		}
-    }
+		reference.AddReference(contig->name.s, contig->seq.s);
 
-    kseq_destroy(contig);
-    return true;
+		load = true;
+	}
+
+	kseq_destroy(contig);
+
+	return load;
 }
 
 } // namespace Fasta
