@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <cstring>
 #include "include/fasta.h"
 #include "lib/htslib/htslib/kseq.h"
 
@@ -34,7 +35,7 @@ struct GZfile {
 	}
 };
 
-bool Load(CReference & reference, const char * filename, const bool & convert_case)
+bool Load(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname)
 {
     assert(filename && *filename);
 
@@ -45,17 +46,23 @@ bool Load(CReference & reference, const char * filename, const bool & convert_ca
     kseq_t *contig = kseq_init(fp);                // initialize seq
     while (kseq_read(contig) >= 0) {
 		assert(contig->name.l > 0);
+		// The qual is detected so the file is not a FASTA (it's a FASTQ).
 		if (contig->qual.l != 0) {
 			assert(false && "The format is not FASTA, qual detected!");
 			kseq_destroy(contig);
 			return false;
 		}
 
+		// The chrmosome is not the target one.
+		if ((pChrname != NULL) && (std::strcmp(pChrname, contig->name.s) != 0))
+			continue;
+
 		if (convert_case) {
 			for (char *ptr = contig->seq.s, *ptrE = ptr + contig->seq.l; ptr != ptrE; ++ptr)
 				*ptr = toupper(*ptr);
 		}
 
+		// Add the contig in reference.
 		if (!reference.AddReference(contig->name.s, contig->seq.s)) {
 			kseq_destroy(contig);
 			return false;

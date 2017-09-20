@@ -23,10 +23,9 @@ SOURCES = demo.cpp
 
 HTS_LIB:=$(LIB)/htslib/libhts.a
 
-all: $(HTS_LIB) AUX
-	@mkdir -p $(BIN_DIR)
-	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/test $(SOURCES) $(OBJ_DIR)/*.o $(HTS_LIB) -lz
+PROGRAM=$(BIN_DIR)/FastaLoader
 
+all: $(PROGRAM)
 .PHONY: all
 
 clean:
@@ -35,6 +34,10 @@ clean:
 	@rm -rf $(OBJ_DIR) $(BIN_DIR)
 .PHONY: clean
 
+
+$(PROGRAM): $(HTS_LIB) AUX
+	@mkdir -p $(BIN_DIR)
+	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/FastaLoader $(SOURCES) $(OBJ_DIR)/*.o $(HTS_LIB) -lz
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
