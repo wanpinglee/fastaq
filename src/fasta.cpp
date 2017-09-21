@@ -5,7 +5,7 @@
 
 KSEQ_INIT(gzFile, gzread)
 
-namespace Fasta {
+namespace Fastaq {
 
 struct GZfile {
 	gzFile fp_;
@@ -35,7 +35,7 @@ struct GZfile {
 	}
 };
 
-bool Load(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname)
+bool FastaLoad(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname)
 {
 	assert(filename && *filename);
 

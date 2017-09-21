@@ -5,6 +5,7 @@
 
 using namespace std;
 
+namespace Fastaq {
 CReference::CReference()
 {
   last_id_ = 0;
@@ -35,4 +36,5 @@ bool CReference::AddReference(const char * pName, const char * pSeq)
   ref_names_.push_back(pName);
 
   return true;
+}
 }

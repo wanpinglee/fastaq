@@ -3,10 +3,12 @@
 
 #include <string>
 
+namespace Fastaq {
 struct SRead
 {
 	std::string name;
 	std::string bases;
 	std::string quals;
 };
+}
 #endif //READ_H_

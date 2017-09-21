@@ -7,6 +7,7 @@
 
 #include "read.h"
 
+namespace Fastaq {
 struct SReference
 {
   SRead read;
@@ -75,5 +76,5 @@ inline std::string CReference::GetSubString(const std::string &chr_name, int pos
   
   return ite->second.read.bases.substr(pos, length);
 }
-
+}
 #endif //REFERENCE_H_

@@ -23,7 +23,7 @@ SOURCES = demo.cpp
 
 HTS_LIB:=$(LIB)/htslib/libhts.a
 
-PROGRAM=$(BIN_DIR)/FastaLoader
+PROGRAM=$(BIN_DIR)/SeqExtractor
 
 all: $(PROGRAM)
 .PHONY: all
@@ -37,7 +37,7 @@ clean:
 
 $(PROGRAM): $(HTS_LIB) AUX
 	@mkdir -p $(BIN_DIR)
-	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/FastaLoader $(SOURCES) $(OBJ_DIR)/*.o $(HTS_LIB) -lz
+	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/SeqExtractor $(SOURCES) $(OBJ_DIR)/*.o $(HTS_LIB) -lz
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
