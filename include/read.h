@@ -1,5 +1,5 @@
-#ifndef READ_H_
-#define READ_H_
+#ifndef _FASTAQ_READ_H_
+#define _FASTAQ_READ_H_
 
 #include <string>
 
@@ -11,4 +11,4 @@ struct SRead
 	std::string quals;
 };
 }
-#endif //READ_H_
+#endif //_FASTAQ_READ_H_
