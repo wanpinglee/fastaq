@@ -11,7 +11,7 @@ namespace Fastaq {
 struct SReference
 {
   SRead read;
-  int length;
+  unsigned int length;
   int id;
 };
 
@@ -30,9 +30,9 @@ class CReference
   // Get a sub string
   inline std::string GetSubString(const std::string &chr_name, int pos, int length) const;
   // Get the length of the reference by id.
-  inline int GetReferenceLength(int id) const;
+  inline unsigned int GetReferenceLength(int id) const;
   // Get the length of the reference by name.
-  inline int GetReferenceLength(const char * name) const;
+  inline unsigned int GetReferenceLength(const char * name) const;
 
  protected:
   std::map<std::string, SReference> refs_; //name and SReference
@@ -47,7 +47,7 @@ inline void CReference::GetReferenceNames(std::vector<std::string>* pRef_name) c
   *pRef_name = ref_names_;
 }
 
-inline int CReference::GetReferenceLength(int id) const
+inline unsigned int CReference::GetReferenceLength(int id) const
 {
   std::string name = ref_names_[id];
   std::map<std::string, SReference>::const_iterator ite = refs_.find(name);
@@ -57,7 +57,7 @@ inline int CReference::GetReferenceLength(int id) const
   return ite->second.length;
 }
 
-inline int CReference::GetReferenceLength(const char *name) const
+inline unsigned int CReference::GetReferenceLength(const char *name) const
 {
   std::map<std::string, SReference>::const_iterator ite = refs_.find(name);
   if (ite == refs_.end())
