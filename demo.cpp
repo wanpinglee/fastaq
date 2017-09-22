@@ -12,11 +12,17 @@ int main (int argc, char** argv) {
 	Fastaq::CReference ref;
 	Fastaq::SRegion region;
 	
-	region.ParseRegion(region, argv[2]);
+	if (!region.ParseRegion(region, argv[2])) {
+		std::cerr << "ERROR: The region is invalid." << std::endl;
+		return 1;
+	}
 	Fastaq::FastaLoad(ref, argv[1], true, region.chr.c_str());
-	if (region.end < region.begin) // region.end is not set. Use the end pos of the chr.
-		region.end = ref.GetReferenceLength(region.chr.c_str());
-	std::cout << ref.GetSubString(region.chr, region.begin, region.end) << std::endl;
+	if (region.begin >= ref.GetReferenceLength(region.chr.c_str()))
+		std::cerr << "ERROR: begin (" << region.begin << ") is out the length (" 
+				<< ref.GetReferenceLength(region.chr.c_str()) << ") of chromosome." << std::endl;
+	if ((region.end == 0) || (region.end < region.begin)) // region.end is not set. Use the end pos of the chr.
+		region.end = ref.GetReferenceLength(region.chr.c_str()) - 1;
+	std::cout << ref.GetSubString(region.chr, region.begin, region.end - region.begin + 1) << std::endl;
 
 
 	return 0;

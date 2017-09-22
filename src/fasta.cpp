@@ -66,6 +66,7 @@ bool FastaLoad(CReference & reference, const char * filename, const bool & conve
 		reference.AddReference(contig->name.s, contig->seq.s);
 
 		load = true;
+		if (pChrname != NULL) break; // The target chromosome has been loaded.
 	}
 
 	kseq_destroy(contig);
