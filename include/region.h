@@ -6,8 +6,8 @@
 namespace Fastaq {
 struct SRegion {
 	std::string chr;
-	unsigned int begin = 0;
-	unsigned int end = 0;
+	unsigned int begin;
+	unsigned int end;
 
 	bool Parse(const std::string & in) {
 		size_t pos = in.find(':');
