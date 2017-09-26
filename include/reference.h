@@ -33,6 +33,8 @@ class CReference
   inline unsigned int GetReferenceLength(int id) const;
   // Get the length of the reference by name.
   inline unsigned int GetReferenceLength(const char * name) const;
+  // Get the id of the reference by name.
+  inline int GetReferenceId(const char * name) const;
 
  protected:
   std::map<std::string, SReference> refs_; //name and SReference
@@ -72,6 +74,14 @@ inline std::string CReference::GetSubString(const std::string &chr_name, unsigne
 	  return std::string();
   
   return ite->second.read.bases.substr(pos, length);
+}
+
+inline int CReference::GetReferenceId(const char * name) const
+{
+  std::map<std::string, SReference>::const_iterator ite = refs_.find(name);
+  if (ite == refs_.end())
+	return -1;
+  return ite->second.id;
 }
 }
 #endif //REFERENCE_H_
