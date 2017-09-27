@@ -15,6 +15,8 @@ struct SRegion {
 			chr = in.substr(0, pos);
 		} else {
 			chr = in;
+			begin = 0;
+			end = 0;
 			return true;
 		}
 
@@ -25,6 +27,7 @@ struct SRegion {
 			if (end < begin) return false;
 		} else { // only having begin position
 			begin = atoi(in.substr(pos + 1).c_str());
+			end = 0;
 		}
 		return true;
 	}
