@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include "include/reference.h"
+#include "fastaq/reference.h"
 
 using namespace std;
 

@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "include/fasta.h"
-#include "include/reference.h"
-#include "include/region.h"
+#include "fastaq/fasta.h"
+#include "fastaq/reference.h"
+#include "fastaq/region.h"
 
 int main (int argc, char** argv) {
 	if (argc != 3) {

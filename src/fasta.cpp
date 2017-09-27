@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <cstring>
-#include "include/fasta.h"
-#include "lib/htslib/htslib/kseq.h"
+#include "fastaq/fasta.h"
+#include "htslib/kseq.h"
 
 KSEQ_INIT(gzFile, gzread)
 
