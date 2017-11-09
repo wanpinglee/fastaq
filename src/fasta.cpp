@@ -7,39 +7,11 @@ KSEQ_INIT(gzFile, gzread)
 
 namespace Fastaq {
 
-struct GZfile {
-	gzFile fp_;
-
-	GZfile(gzFile fp = 0L)
-	: fp_(fp)
-	{}
-
-	GZfile(const char *fname, const char *mode = 0L)
-	: fp_(gzopen(fname, mode))
-	{}
-
-	~GZfile()
-	{
-		if (fp_)
-			gzclose(fp_);
-	}
-
-	operator gzFile () const
-	{
-		return fp_;
-	}
-
-	operator bool () const
-	{
-		return fp_ != 0L;
-	}
-};
-
 bool FastaLoad(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname)
 {
 	assert(filename && *filename);
 
-	GZfile fp(filename, "r"); // open the file handler
+	gzFile fp = gzopen(filename, "r");
 	if (!fp) return false; // Cannot open the file
 
 	bool load = false;
@@ -70,7 +42,7 @@ bool FastaLoad(CReference & reference, const char * filename, const bool & conve
 	}
 
 	kseq_destroy(contig);
-
+	gzclose(fp);
 	return load;
 }
 

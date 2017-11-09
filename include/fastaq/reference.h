@@ -35,6 +35,8 @@ class CReference
   inline unsigned int GetReferenceLength(const char * name) const;
   // Get the id of the reference by name.
   inline int GetReferenceId(const char * name) const;
+  // Clean
+  inline void Clean();
 
  protected:
   std::map<std::string, SReference> refs_; //name and SReference
@@ -82,6 +84,12 @@ inline int CReference::GetReferenceId(const char * name) const
   if (ite == refs_.end())
 	return -1;
   return ite->second.id;
+}
+
+inline void CReference::Clean() {
+  last_id_ = 0;
+  refs_.clear();
+  ref_names_.clear();
 }
 }
 #endif //REFERENCE_H_
