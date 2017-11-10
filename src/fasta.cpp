@@ -5,12 +5,20 @@
 
 KSEQ_INIT(gzFile, gzread)
 
-namespace Fastaq {
+namespace {
 
-bool FastaLoad(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname)
+void AddReference(Fastaq::CReference & reference, const char* name, const char* seq)
 {
-	assert(filename && *filename);
+	reference.AddReference(name, seq);
+}
+void AddReference(std::string & reference, const char* name, const char* seq)
+{
+	reference = seq;
+}
 
+template <typename T>
+bool Load(T & reference, const char * filename, const bool & convert_case, const char* pChrname)
+{
 	gzFile fp = gzopen(filename, "r");
 	if (!fp) return false; // Cannot open the file
 
@@ -35,7 +43,7 @@ bool FastaLoad(CReference & reference, const char * filename, const bool & conve
 		}
 
 		// Add the contig in reference.
-		reference.AddReference(contig->name.s, contig->seq.s);
+		AddReference(reference, contig->name.s, contig->seq.s);
 
 		load = true;
 		if (pChrname != NULL) break; // The target chromosome has been loaded.
@@ -45,5 +53,16 @@ bool FastaLoad(CReference & reference, const char * filename, const bool & conve
 	gzclose(fp);
 	return load;
 }
+} // namespace
 
+namespace Fastaq {
+bool FastaLoad(std::string & reference, const char * filename, const bool & convert_case, const char* pChrname)
+{
+	return Load(reference, filename, convert_case, pChrname);
+}
+
+bool FastaLoad(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname)
+{
+	return Load(reference, filename, convert_case, pChrname);
+}
 } // namespace Fasta

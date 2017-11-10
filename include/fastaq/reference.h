@@ -35,6 +35,7 @@ class CReference
   inline unsigned int GetReferenceLength(const char * name) const;
   // Get the id of the reference by name.
   inline int GetReferenceId(const char * name) const;
+  
   // Clean
   inline void Clean();
 
