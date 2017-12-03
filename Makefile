@@ -19,14 +19,13 @@ export $(CXXFLAGS)
 
 
 SUB_DIRS = src
-SOURCES = demo.cpp
 
 HTS_LIB:=$(LIB)/htslib/libhts.a
 INCLUDE=-I include/
 
 PROGRAM=$(BIN_DIR)/SeqExtractor
 
-all: $(PROGRAM)
+all: $(BIN_DIR)/SeqExtractor $(BIN_DIR)/CountKmer
 .PHONY: all
 
 clean:
@@ -36,9 +35,13 @@ clean:
 .PHONY: clean
 
 
-$(PROGRAM): $(HTS_LIB) AUX
+$(BIN_DIR)/SeqExtractor: $(HTS_LIB) AUX
 	@mkdir -p $(BIN_DIR)
-	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/SeqExtractor $(SOURCES) $(OBJ_DIR)/*.o $(HTS_LIB) -lz $(INCLUDE)
+	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/SeqExtractor examples/SeqExtractor.cpp $(OBJ_DIR)/*.o $(HTS_LIB) -lz $(INCLUDE)
+
+$(BIN_DIR)/CountKmer: $(HTS_LIB) AUX
+	@mkdir -p $(BIN_DIR)
+	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/CountKmer examples/CountKmer.cpp $(OBJ_DIR)/*.o $(HTS_LIB) -lz $(INCLUDE)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)

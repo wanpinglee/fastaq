@@ -6,7 +6,6 @@
 #include "fastaq/region.h"
 
 int main (int argc, char** argv) {
-/*
 	if (argc != 3) {
 		std::cerr << "USAGE: " << argv[0] << " <FASTA> <region>" << std::endl;
 		return 1;
@@ -29,10 +28,6 @@ int main (int argc, char** argv) {
 	if ((region.end == 0) || (region.end < region.begin)) // region.end is not set. Use the end pos of the chr.
 		region.end = ref.GetReferenceLength(region.chr.c_str()) - 1;
 	std::cout << ref.GetSubString(region.chr, region.begin, region.end - region.begin + 1) << std::endl;
-*/
-
-	std::list<std::list<uint64_t> > kmer;
-	Fastaq::CountKmer(argv[1], kmer);
 
 	return 0;
 }

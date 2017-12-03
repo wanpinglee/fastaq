@@ -17,9 +17,10 @@ namespace Fastaq
 	bool FastaLoad(std::string & reference, const char* pFilename, const bool & convert_case, const char* pChrname);
 
 	// Count Kmer (the implementation is src/countKmer)
+	// ref_names for storing chromosome names.
 	// The results are kept in list from the first chromosome to the last one.
 	// In each list, kmer counts are kept from the first position of the chromosome to the last one.
-	bool CountKmer(const char* pFilename, std::list<std::list<uint64_t> >& kmer);
+	bool CountKmer(const char* pFilename, const int kmer_size, std::vector<std::string>& ref_names, std::list<std::list<uint64_t> >& kmer);
 }
 
 #endif // FASTA_H_

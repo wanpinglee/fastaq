@@ -4,6 +4,8 @@ SOURCES = fasta.cpp reference.cpp countKmer.cpp
 OBJECTS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
 INCLUDE = -I ../include/ -I ../lib/htslib/
 
+CXXFLAGS = -std=c++11
+
 all: $(OBJECTS)
 
 $(OBJECTS): $(SOURCES)
