@@ -65,4 +65,4 @@ bool FastaLoad(CReference & reference, const char * filename, const bool & conve
 {
 	return Load(reference, filename, convert_case, pChrname);
 }
-} // namespace Fasta
+} // namespace Fastaq

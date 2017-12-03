@@ -1,6 +1,6 @@
 
 OBJ_DIR = ../obj
-SOURCES = fasta.cpp reference.cpp
+SOURCES = fasta.cpp reference.cpp countKmer.cpp
 OBJECTS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
 INCLUDE = -I ../include/ -I ../lib/htslib/
 

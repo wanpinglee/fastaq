@@ -27,6 +27,7 @@ class CReference
   inline void GetReferenceNames(std::vector<std::string>* pRef_name) const;
   // Get reference count.
   inline unsigned int GetReferenceCount() const {return refs_.size();};
+  inline const char* GetChrString(const std::string &chr_name) const;
   // Get a sub string
   inline std::string GetSubString(const std::string &chr_name, unsigned int pos, unsigned int length) const;
   // Get the length of the reference by id.
@@ -68,6 +69,15 @@ inline unsigned int CReference::GetReferenceLength(const char *name) const
   if (ite == refs_.end())
 	  return -1;
   return ite->second.length;
+}
+
+inline const char* CReference::GetChrString(const std::string &chr_name) const 
+{
+  std::map<std::string, SReference>::const_iterator ite = refs_.find(chr_name);
+  if (ite == refs_.end())
+	return NULL;
+
+  return ite->second.read.bases.c_str();
 }
 
 inline std::string CReference::GetSubString(const std::string &chr_name, unsigned int pos, unsigned int length) const
