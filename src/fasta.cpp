@@ -28,7 +28,8 @@ bool Load(T & reference, const char * filename, const bool & convert_case, const
 	if (pChrname != NULL) {
 		faidx_t *fai = NULL;
 		fai = fai_load(filename);
-		if (fai = NULL) {
+		// If cannot load fai, then try to build it.
+		if (fai == NULL) {
 			std::cerr << "Warning: Cannot find fai for " << filename << ". Will generate it." << std::endl;
 			if (fai_build(filename) == -1) {
 				std::cerr << "ERROR: Cannot load and index " << filename << "." << std::endl;
@@ -36,7 +37,7 @@ bool Load(T & reference, const char * filename, const bool & convert_case, const
 			}
 			fai = fai_load(filename);
 		}
-
+		// Check if the query chr name is there.
 		if (faidx_has_seq(fai, pChrname) == 0) {
 			std::cerr << "ERROR: Cannot find " << pChrname << " in " << filename << "." << std::endl;
 		} else {
