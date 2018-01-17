@@ -22,6 +22,7 @@ SUB_DIRS = src
 
 HTS_LIB:=$(LIB)/htslib/libhts.a
 INCLUDE=-I include/
+LIBRARY=-lz -lbz2 -lcurl
 
 PROGRAM=$(BIN_DIR)/SeqExtractor
 
@@ -37,11 +38,11 @@ clean:
 
 $(BIN_DIR)/SeqExtractor: $(HTS_LIB) AUX
 	@mkdir -p $(BIN_DIR)
-	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/SeqExtractor examples/SeqExtractor.cpp $(OBJ_DIR)/*.o $(HTS_LIB) -lz $(INCLUDE)
+	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/SeqExtractor examples/SeqExtractor.cpp $(OBJ_DIR)/*.o $(HTS_LIB) $(LIBRARY) $(INCLUDE)
 
 $(BIN_DIR)/CountKmer: $(HTS_LIB) AUX
 	@mkdir -p $(BIN_DIR)
-	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/CountKmer examples/CountKmer.cpp $(OBJ_DIR)/*.o $(HTS_LIB) -lz $(INCLUDE)
+	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/CountKmer examples/CountKmer.cpp $(OBJ_DIR)/*.o $(HTS_LIB) $(LIBRARY) $(INCLUDE)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
