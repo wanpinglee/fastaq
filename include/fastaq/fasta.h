@@ -16,6 +16,8 @@ namespace Fastaq
 	bool FastaLoad(CReference & reference, const char* pFilename, const bool & convert_case = true, const char* pChrname = NULL);
 	bool FastaLoad(std::string & reference, const char* pFilename, const bool & convert_case, const char* pChrname);
 
+	bool HeaderLoad(CReference & reference, const char* pFilename);
+
 	// Count Kmer (the implementation is src/countKmer)
 	// ref_names for storing chromosome names.
 	// The results are kept in list from the first chromosome to the last one.

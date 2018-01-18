@@ -21,8 +21,6 @@ void AddReference(std::string & reference, const char* name, const char* seq)
 template <typename T>
 bool Load(T & reference, const char * filename, const bool & convert_case, const char* pChrname)
 {
-	gzFile fp = gzopen(filename, "r");
-	if (!fp) return false; // Cannot open the file
 
 	bool load = false;
 	if (pChrname != NULL) {
@@ -30,7 +28,7 @@ bool Load(T & reference, const char * filename, const bool & convert_case, const
 		fai = fai_load(filename);
 		// If cannot load fai, then try to build it.
 		if (fai == NULL) {
-			std::cerr << "Warning: Cannot find fai for " << filename << ". Will generate it." << std::endl;
+			std::cerr << "Indexing " << filename << "......" << std::endl;
 			if (fai_build(filename) == -1) {
 				std::cerr << "ERROR: Cannot load and index " << filename << "." << std::endl;
 				return false;
@@ -44,6 +42,7 @@ bool Load(T & reference, const char * filename, const bool & convert_case, const
 			const int length = faidx_seq_len(fai, pChrname);
 			int load_length = 0;
 			char * seq = faidx_fetch_seq(fai, pChrname, 0, length - 1, &load_length);
+
 			if (convert_case) {
 				char *ptr = seq;
 				for (int i = 0; i < load_length; ++i, ++ptr)
@@ -57,6 +56,9 @@ bool Load(T & reference, const char * filename, const bool & convert_case, const
 		}
 		fai_destroy(fai);
 	} else {
+		gzFile fp = gzopen(filename, "r");
+		if (!fp) return false; // Cannot open the file
+
 		kseq_t *contig = kseq_init(fp);                // initialize seq
 		while (kseq_read(contig) >= 0) {
 			assert(contig->name.l > 0);
@@ -77,14 +79,35 @@ bool Load(T & reference, const char * filename, const bool & convert_case, const
 			load = true;
 		}
 		kseq_destroy(contig);
+		gzclose(fp);
 	}
 
-	gzclose(fp);
 	return load;
 }
 } // namespace
 
 namespace Fastaq {
+bool HeaderLoad(CReference & reference, const char * filename)
+{
+	faidx_t *fai = NULL;
+	fai = fai_load(filename);
+	// If cannot load fai, then try to build it.
+	if (fai == NULL) {
+		std::cerr << "Indexing " << filename << "......" << std::endl;
+		if (fai_build(filename) == -1) {
+			std::cerr << "ERROR: Cannot load and index " << filename << "." << std::endl;
+			return false;
+		}
+		fai = fai_load(filename);
+	}
+
+	for (int i = 0; i < faidx_nseq(fai); ++i)
+		reference.AddReference(faidx_iseq(fai, i), NULL);
+	fai_destroy(fai);
+
+	return true;
+}
+
 bool FastaLoad(std::string & reference, const char * filename, const bool & convert_case, const char* pChrname)
 {
 	return Load(reference, filename, convert_case, pChrname);
