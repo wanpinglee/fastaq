@@ -25,6 +25,8 @@ class CReference
   bool AddReference(const char *pName, const char *pSeq);
   // Get reference names in order.
   inline void GetReferenceNames(std::vector<std::string>* pRef_name) const;
+  // Get the name of i-th reference. If not exist, then return NULL.
+  inline const char* GetReferenceName(unsigned int i) const;
   // Get reference count.
   inline unsigned int GetReferenceCount() const {return refs_.size();};
   inline const char* GetChrString(const std::string &chr_name) const;
@@ -35,6 +37,7 @@ class CReference
   // Get the length of the reference by name.
   inline unsigned int GetReferenceLength(const char * name) const;
   // Get the id of the reference by name.
+  // If the reference does not exist, then return -1.
   inline int GetReferenceId(const char * name) const;
   
   // Clean
@@ -51,6 +54,12 @@ class CReference
 inline void CReference::GetReferenceNames(std::vector<std::string>* pRef_name) const
 {
   *pRef_name = ref_names_;
+}
+
+inline const char* CReference::GetReferenceName(unsigned int i) const
+{
+  if (i >= ref_names_.size()) return NULL;
+  return ref_names_[i].c_str();
 }
 
 inline unsigned int CReference::GetReferenceLength(int id) const
