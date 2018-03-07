@@ -13,8 +13,9 @@ namespace Fastaq
 {
 	// Open and Load a FASTA file
 	// If chr_name is set, the function will load that specific chromosome only.
-	bool FastaLoad(CReference & reference, const char* pFilename, const bool & convert_case = true, const char* pChrname = NULL);
-	bool FastaLoad(std::string & reference, const char* pFilename, const bool & convert_case, const char* pChrname);
+	// If quiet, there won't be any message printed out.
+	bool FastaLoad(CReference & reference, const char* pFilename, const bool & convert_case = true, const char* pChrname = NULL, const bool quiet = false);
+	bool FastaLoad(std::string & reference, const char* pFilename, const bool & convert_case, const char* pChrname, const bool quiet = false);
 
 	bool HeaderLoad(CReference & reference, const char* pFilename);
 
