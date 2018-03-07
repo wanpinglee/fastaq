@@ -19,7 +19,7 @@ void AddReference(std::string & reference, const char* name, const char* seq)
 }
 
 template <typename T>
-bool Load(T & reference, const char * filename, const bool & convert_case, const char* pChrname)
+bool Load(T & reference, const char * filename, const bool & convert_case, const char* pChrname, const bool quiet)
 {
 
 	bool load = false;
@@ -30,14 +30,14 @@ bool Load(T & reference, const char * filename, const bool & convert_case, const
 		if (fai == NULL) {
 			std::cerr << "Indexing " << filename << "......" << std::endl;
 			if (fai_build(filename) == -1) {
-				std::cerr << "ERROR: Cannot load and index " << filename << "." << std::endl;
+				if (!quiet) std::cerr << "ERROR: Cannot load and index " << filename << "." << std::endl;
 				return false;
 			}
 			fai = fai_load(filename);
 		}
 		// Check if the query chr name is there.
 		if (faidx_has_seq(fai, pChrname) == 0) {
-			std::cerr << "ERROR: Cannot find " << pChrname << " in " << filename << "." << std::endl;
+			if (!quiet) std::cerr << "ERROR: Cannot find " << pChrname << " in " << filename << "." << std::endl;
 		} else {
 			const int length = faidx_seq_len(fai, pChrname);
 			int load_length = 0;
@@ -108,13 +108,13 @@ bool HeaderLoad(CReference & reference, const char * filename)
 	return true;
 }
 
-bool FastaLoad(std::string & reference, const char * filename, const bool & convert_case, const char* pChrname)
+bool FastaLoad(std::string & reference, const char * filename, const bool & convert_case, const char* pChrname, const bool quiet)
 {
-	return Load(reference, filename, convert_case, pChrname);
+	return Load(reference, filename, convert_case, pChrname, quiet);
 }
 
-bool FastaLoad(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname)
+bool FastaLoad(CReference & reference, const char * filename, const bool & convert_case, const char* pChrname, const bool quiet)
 {
-	return Load(reference, filename, convert_case, pChrname);
+	return Load(reference, filename, convert_case, pChrname, quiet);
 }
 } // namespace Fastaq
