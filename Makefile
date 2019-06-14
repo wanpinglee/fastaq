@@ -24,6 +24,7 @@ HTS_LIB:=$(LIB)/htslib/libhts.a
 INCLUDE=-I include/
 LIBRARY=-lz -lbz2 -lcurl -lpthread -lssl -lcrypto
 
+
 PROGRAM=$(BIN_DIR)/SeqExtractor
 
 all: $(BIN_DIR)/SeqExtractor $(BIN_DIR)/CountKmer
