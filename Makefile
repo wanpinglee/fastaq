@@ -55,10 +55,4 @@ AUX: $(OBJ_DIR)
 
 $(HTS_LIB):
 	@echo "- Building in htslib"
-	@rm -f $(LIB)/htslib/configure
-	@rm -rf $(LIB)/htslib/autom4te.cache
-	@cp $(LIB)/htslib/configure.ac $(LIB)/htslib/configure.ac~
-	@sed -i 's#m4_esyscmd_s(\[make print-version\]),##g' $(LIB)/htslib/configure.ac
-	@cd $(LIB)/htslib && $(AUTOHEADER) && $(AUTOCONF) && ./configure --disable-lzma
 	$(MAKE) --no-print-directory -C $(LIB)/htslib
-	@test -f $(LIB)/htslib/configure.ac~ && mv $(LIB)/htslib/configure.ac~ $(LIB)/htslib/configure.ac
